@@ -1,14 +1,28 @@
 package models;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Table(name = "tb_cliente")
 public class Cliente {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "nome")
     private String name;
+
+    @Column(name = "tel")
     private String telefone;
+
+    @Column(name = "cpf")
     private String cpf;
-    private String senha;
+
+
+    //private String senha;
 
     public Cliente() {
     }
@@ -18,7 +32,7 @@ public class Cliente {
         this.name = name;
         this.telefone = telefone;
         this.cpf = cpf;
-        this.senha = senha;
+        //this.senha = senha;
     }
 
     public Long getId() {
@@ -53,13 +67,13 @@ public class Cliente {
         this.cpf = cpf;
     }
 
-    public String getSenha() {
+    /*public String getSenha() {
         return senha;
     }
 
-    public void setSenha(String senha) {
+    //public void setSenha(String senha) {
         this.senha = senha;
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {

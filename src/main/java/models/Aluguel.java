@@ -1,17 +1,37 @@
 package models;
 
+import jakarta.persistence.*;
+
 import javax.xml.crypto.Data;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "tb_aluguel")
 public class Aluguel {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "inicio")
     private LocalDate dataInicio;
+
+    @Column(name = "fim")
     private LocalDate dataFim;
+
+    @Column(name = "valor")
     private float valorTotal;
+
+    @Column(name = "status")
     private String status;
+
+    @Column(name = "texa")
     private float  taxaFixa;
+
+    @Column(name = "veiculo")
     private Veiculo veiculo;
+
+    @Column(name = "cliente")
     private Cliente cliente;
 
 
