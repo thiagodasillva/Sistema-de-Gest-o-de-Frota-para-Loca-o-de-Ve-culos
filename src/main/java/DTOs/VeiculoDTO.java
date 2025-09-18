@@ -1,49 +1,25 @@
-package models;
+package DTOs;
 
-import jakarta.persistence.*;
+import models.TipoVeiculo;
 
 import javax.xml.crypto.Data;
-import java.util.Objects;
-import java.util.Set;
 
-@Entity
-@Table(name = "tb_veiculo")
-public class Veiculo {
+public class VeiculoDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "placa")
     private String placa;
-
-    @Column(name = "modelo")
     private String modelo;
-
-    @Column(name = "marca")
     private String marca;
-
-    @Column(name = "ano")
     private Data ano;
-
-    @Column(name = "cor")
     private String cor;
-
-    @Column(name = "disponivel")
     private boolean disponivel;
-
-    @ManyToOne
     private TipoVeiculo tipoVeiculo;
 
-    @OneToMany
-    private Set<Aluguel> alugueis;
+    public VeiculoDTO() {
 
-
-
-    public Veiculo() {
     }
 
-    public Veiculo(Long id, String placa, String modelo, String marca, Data ano, String cor, boolean disponivel, TipoVeiculo tipoVeiculo) {
+    public VeiculoDTO(Long id, String placa, String modelo, String marca, Data ano, String cor, boolean disponivel, TipoVeiculo tipoVeiculo) {
         this.id = id;
         this.placa = placa;
         this.modelo = modelo;
@@ -116,19 +92,5 @@ public class Veiculo {
 
     public void setTipoVeiculo(TipoVeiculo tipoVeiculo) {
         this.tipoVeiculo = tipoVeiculo;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Veiculo veiculo = (Veiculo) o;
-        return Objects.equals(id, veiculo.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
     }
 }

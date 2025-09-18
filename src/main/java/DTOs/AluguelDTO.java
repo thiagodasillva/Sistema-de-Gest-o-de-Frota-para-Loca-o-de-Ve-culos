@@ -1,46 +1,28 @@
-package models;
+package DTOs;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.ManyToOne;
+import models.Cliente;
+import models.Veiculo;
 
-import javax.xml.crypto.Data;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "tb_aluguel")
-public class Aluguel {
+public class AluguelDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
-
-    @Column(name = "inicio")
     private LocalDate dataInicio;
-
-    @Column(name = "fim")
     private LocalDate dataFim;
-
-    @Column(name = "valor")
     private float valorTotal;
-
-    @Column(name = "status")
     private String status;
-
-    @Column(name = "texa")
     private float  taxaFixa;
-
-    @Column(name = "veiculo")
-    @ManyToOne
     private Veiculo veiculo;
-
-    @Column(name = "cliente")
-    @ManyToOne
     private Cliente cliente;
 
-
-    public Aluguel() {
+    public AluguelDTO() {
     }
 
-    public Aluguel(Long id, LocalDate dataInicio, LocalDate dataFim, float valorTotal, String status, float taxaFixa, Veiculo veiculo, Cliente cliente) {
+    public AluguelDTO(Long id, LocalDate dataInicio, LocalDate dataFim, float valorTotal, String status, float taxaFixa, Veiculo veiculo, Cliente cliente) {
         this.id = id;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;

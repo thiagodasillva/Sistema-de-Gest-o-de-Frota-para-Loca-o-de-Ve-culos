@@ -3,6 +3,7 @@ package models;
 import jakarta.persistence.*;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_cliente")
@@ -21,6 +22,9 @@ public class Cliente {
     @Column(name = "cpf")
     private String cpf;
 
+    @Column(name = "alugueis")
+    private Set<Aluguel> algueis;
+
 
     //private String senha;
 
@@ -33,6 +37,14 @@ public class Cliente {
         this.telefone = telefone;
         this.cpf = cpf;
         //this.senha = senha;
+    }
+
+    public Cliente(Long id, String name, String telefone, String cpf, Set<Aluguel> algueis) {
+        this.id = id;
+        this.name = name;
+        this.telefone = telefone;
+        this.cpf = cpf;
+        this.algueis = algueis;
     }
 
     public Long getId() {
@@ -65,6 +77,14 @@ public class Cliente {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public Set<Aluguel> getAlgueis() {
+        return algueis;
+    }
+
+    public void setAlgueis(Set<Aluguel> algueis) {
+        this.algueis = algueis;
     }
 
     /*public String getSenha() {

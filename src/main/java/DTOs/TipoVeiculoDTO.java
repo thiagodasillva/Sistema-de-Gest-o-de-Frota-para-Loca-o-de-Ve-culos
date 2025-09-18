@@ -1,38 +1,33 @@
-package models;
+package DTOs;
 
 import jakarta.persistence.*;
+import models.Veiculo;
 
 import java.util.Set;
 
-@Entity
-@Table(name = "tb_tipo")
-public class TipoVeiculo {
+public class TipoVeiculoDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "descricao")
     private String descricao;
 
-    @Column(name = "diaria")
     private double precoDiario;
 
-    @Column(name = "veiculos")
-    @OneToMany
     private Set<Veiculo> veiculoSets;
 
-    public TipoVeiculo() {
+    public TipoVeiculoDTO() {
+
     }
 
-    public TipoVeiculo(Long id, String name, String descricao, double precoDiario) {
+    public TipoVeiculoDTO(Long id, String name, String descricao, double precoDiario, Set<Veiculo> veiculoSets) {
         this.id = id;
         this.name = name;
         this.descricao = descricao;
         this.precoDiario = precoDiario;
+        this.veiculoSets = veiculoSets;
     }
 
     public Long getId() {
