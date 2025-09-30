@@ -1,10 +1,10 @@
-package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.exception;
-
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-@RestControllerAdvice
-public class GlobalExceptionHandler {
+//package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.exception;
+//
+//import org.springframework.web.bind.annotation.ExceptionHandler;
+//import org.springframework.web.bind.annotation.RestControllerAdvice;
+//
+//@RestControllerAdvice
+//public class GlobalExceptionHandler {
 
 //    @ExceptionHandler({
 //            ItemNotFoundException.class
@@ -67,4 +67,4 @@ public class GlobalExceptionHandler {
 //    }
 
 
-}
+//}

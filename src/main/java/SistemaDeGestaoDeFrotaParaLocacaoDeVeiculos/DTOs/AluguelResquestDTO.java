@@ -11,23 +11,25 @@ import java.time.LocalDateTime;
 
 public class AluguelResquestDTO {
 
-    @NotBlank(message = "O ID do cliente é obrigatório")
+    @NotNull(message = "O ID do cliente é obrigatório")
     private Long clienteId;
 
-    @NotBlank(message = "O ID do veículo é obrigatório")
+    @NotNull(message = "O ID do veículo é obrigatório")
     private Long veiculoId;
 
-    @NotBlank(message = "a taxa fixa não pode ser vazia")
+    @NotNull(message = "A taxa fixa não pode ser vazia")
     private BigDecimal taxaFixa;
 
+    @NotNull(message = "A data de início é obrigatória")
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime dataInicio;
 
-    public AluguelResquestDTO() {
 
+
+    public AluguelResquestDTO() {
     }
 
-    public AluguelResquestDTO(Long clienteId, Long veiculoId, BigDecimal taxaFixa, LocalDate TimedataInicio) {
+    public AluguelResquestDTO(Long clienteId, Long veiculoId, BigDecimal taxaFixa, LocalDateTime dataInicio) {
         this.clienteId = clienteId;
         this.veiculoId = veiculoId;
         this.taxaFixa = taxaFixa;

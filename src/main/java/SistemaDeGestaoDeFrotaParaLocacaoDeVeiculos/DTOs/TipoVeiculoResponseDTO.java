@@ -17,6 +17,9 @@ public class TipoVeiculoResponseDTO {
         this.precoDiario = precoDiario;
     }
 
+    public TipoVeiculoResponseDTO() {
+    }
+
     public Long getId() {
         return id;
     }

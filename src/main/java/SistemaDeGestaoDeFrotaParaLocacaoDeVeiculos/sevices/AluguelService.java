@@ -6,6 +6,7 @@ import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.Repository.AluguelRepository;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.Repository.ClienteRepository;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.Repository.VeiculoRepository;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.Aluguel;
+import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.AluguelStatus;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.Cliente;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.Veiculo;
 import jakarta.persistence.EntityNotFoundException;
@@ -43,7 +44,20 @@ public class AluguelService {
     }
 
     public AluguelResponseDTO EntitytoDTO(Aluguel aluguel){
-      return modelMapper.map(aluguel, AluguelResponseDTO.class);
+        AluguelResponseDTO dto = new AluguelResponseDTO();
+        dto.setId(aluguel.getId());
+        dto.setDataInicio(aluguel.getDataInicio());
+        dto.setDataFim(aluguel.getDataFim());
+        dto.setStatus(aluguel.getStatus());
+        dto.setValorTotal(aluguel.getValorTotal());
+
+
+        dto.setClienteId(aluguel.getCliente().getId());
+        dto.setClienteNome(aluguel.getCliente().getName());
+        dto.setVeiculoId(aluguel.getVeiculo().getId());
+        dto.setVeiculoPlaca(aluguel.getVeiculo().getPlaca());
+        return dto;
+
     }
 
   public AluguelResponseDTO getAluguel(Long id){
@@ -102,10 +116,17 @@ public class AluguelService {
           throw new RuntimeException("Veículo não está disponível para aluguel.");
       }
 
-      Aluguel aluguel = DTOtoEntity(aluguelDTO);
+      Aluguel aluguel = new Aluguel();
+      aluguel.setCliente(cliente);
+      aluguel.setVeiculo(veiculo);
+      aluguel.setDataInicio(aluguelDTO.getDataInicio());
+      aluguel.setTaxaFixa(aluguelDTO.getTaxaFixa());
+      aluguel.setStatus(AluguelStatus.ATIVO);
 
 
       veiculo.setStatus(ALUGADO);
+      aluguelRepository.save(aluguel);
+
       aluguelRepository.save(aluguel);
 
 

@@ -24,6 +24,10 @@ public class ClienteRequestDTO {
         this.cpf = cpf;
     }
 
+    public ClienteRequestDTO() {
+
+    }
+
     public String getName() {
         return name;
     }

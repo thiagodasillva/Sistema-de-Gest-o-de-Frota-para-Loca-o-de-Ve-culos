@@ -19,6 +19,8 @@ public class AluguelResponseDTO {
     private Long veiculoId;
     private String veiculoPlaca;
 
+    public AluguelResponseDTO() {
+    }
 
     public AluguelResponseDTO(Long id, LocalDateTime dataInicio, LocalDateTime dataFim, BigDecimal valorTotal, AluguelStatus status, Long clienteId, String clienteNome, Long veiculoId, String veiculoPlaca) {
         this.id = id;

@@ -22,6 +22,10 @@ public class VeiculoResponseDTO {
         this.tipoVeiculoId = tipoVeiculoId;
     }
 
+    public VeiculoResponseDTO() {
+
+    }
+
     public Long getId() {
         return id;
     }

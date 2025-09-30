@@ -14,6 +14,9 @@ public class ClienteResponseDTO {
         this.cpf = cpf;
     }
 
+    public ClienteResponseDTO() {
+    }
+
     public Long getId() {
         return id;
     }

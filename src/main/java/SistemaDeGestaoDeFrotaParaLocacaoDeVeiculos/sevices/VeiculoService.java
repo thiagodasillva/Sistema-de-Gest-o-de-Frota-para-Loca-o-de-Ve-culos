@@ -78,14 +78,18 @@ public class VeiculoService {
 
 
     public VeiculoResponseDTO creatVeiculo(VeiculoRequestDTO veiculoDTO){
+        TipoVeiculo tipoVeiculo = tipoVeiculoRepository.findById(veiculoDTO.gettipoVeiculo()).orElseThrow(() -> new EntityNotFoundException("O tipo de veiculo informado no veiculo não existe"));
+
         Veiculo veiculo = DTOToEntity(veiculoDTO);
+        veiculo.setTipoVeiculo(tipoVeiculo);
+
         veiculoRepository.save(veiculo);
         return EntityToDTO(veiculo);
     }
 
     public VeiculoResponseDTO updateVeiculo(Long id, VeiculoRequestDTO veiculoDTO){
         Veiculo veiculo = veiculoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("não existe Veiculo com o id informado"));
-        TipoVeiculo tipoVeiculo = tipoVeiculoRepository.findById(veiculoDTO.getTipoVeiculoID()).orElseThrow(()-> new EntityNotFoundException("não existe o tipo de veiculo com o id informado"));
+        TipoVeiculo tipoVeiculo = tipoVeiculoRepository.findById(veiculoDTO.gettipoVeiculo()).orElseThrow(()-> new EntityNotFoundException("não existe o tipo de veiculo com o id informado"));
 
         veiculo.setTipoVeiculo(tipoVeiculo);
         veiculo.setStatus(veiculoDTO.getStatus());

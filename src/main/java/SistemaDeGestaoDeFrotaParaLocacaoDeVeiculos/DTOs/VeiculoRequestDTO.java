@@ -1,6 +1,9 @@
 package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs;
 
+import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.TipoVeiculo;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.VeiculoStatus;
 
@@ -18,30 +21,32 @@ public class VeiculoRequestDTO {
     @Size(min = 3,max = 20, message = "A marca deve ter entre 3 e 20 caracteris")
     private String marca;
 
-    @NotBlank(message = "O campo ano não pode ser deixada vazia")
-    @Size(max = 20, message = "A placa deve ter 4 caracteris")
+    @NotNull(message = "O campo ano não pode ser deixada vazia")
     private Integer ano;
 
     @NotBlank(message = "O campo cor não pode ser deixada vazia")
-    @Size(min = 3,max = 20, message = "A placa deve ter entre 3 e 20 caracteris")
+    @Size(min = 3,max = 20, message = "A Cor deve ter entre 3 e 20 caracteris")
     private String cor;
 
-    @NotBlank(message = "O campo placa não pode ser deixada vazia")
-    @Size(min = 3,max = 20, message = "A placa deve ter entre 3 e 20 caracteris")
+    @NotNull(message = "O ID do tipo de veículo é obrigatório.")
+    @Positive(message = "O ID do tipo de veículo deve ser um número positivo.")
+    private Long tipoVeiculo;
 
-    @NotBlank(message = "O Veiculo deve ter um tipo definido")
-    private Long tipoVeiculoID;
     private VeiculoStatus status = VeiculoStatus.DISPONIVEL;
 
 
-    public VeiculoRequestDTO(String placa, String modelo, String marca, Integer ano, String cor, Long tipoVeiculoID, VeiculoStatus status) {
+    public VeiculoRequestDTO(String placa, String modelo, String marca, Integer ano, String cor, Long tipoVeiculo, VeiculoStatus status) {
         this.placa = placa;
         this.modelo = modelo;
         this.marca = marca;
         this.ano = ano;
         this.cor = cor;
-        this.tipoVeiculoID = tipoVeiculoID;
+        this.tipoVeiculo = tipoVeiculo;
         this.status = status;
+    }
+
+    public VeiculoRequestDTO() {
+
     }
 
     public String getPlaca() {
@@ -84,12 +89,12 @@ public class VeiculoRequestDTO {
         this.cor = cor;
     }
 
-    public Long getTipoVeiculoID() {
-        return tipoVeiculoID;
+    public Long gettipoVeiculo() {
+        return tipoVeiculo;
     }
 
-    public void setTipoVeiculoID(Long tipoVeiculoID) {
-        this.tipoVeiculoID = tipoVeiculoID;
+    public void settipoVeiculo(Long tipoVeiculo) {
+        this.tipoVeiculo = tipoVeiculo;
     }
 
     public VeiculoStatus getStatus() {
