@@ -13,7 +13,7 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome")
+    @Column(name = "name")
     private String name;
 
     @Column(name = "tel")
@@ -22,8 +22,8 @@ public class Cliente {
     @Column(name = "cpf")
     private String cpf;
 
-    @Column(name = "alugueis")
-    private Set<Aluguel> algueis;
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+    private Set<Aluguel> alugueis = new java.util.HashSet<>();
 
 
     //private String senha;
@@ -31,20 +31,12 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(Long id, String name, String telefone, String cpf, String senha) {
+    public Cliente(Long id, String name, String telefone, String cpf, Set<Aluguel> alugueis) {
         this.id = id;
         this.name = name;
         this.telefone = telefone;
         this.cpf = cpf;
-        //this.senha = senha;
-    }
-
-    public Cliente(Long id, String name, String telefone, String cpf, Set<Aluguel> algueis) {
-        this.id = id;
-        this.name = name;
-        this.telefone = telefone;
-        this.cpf = cpf;
-        this.algueis = algueis;
+        this.alugueis = alugueis;
     }
 
     public Long getId() {
@@ -80,11 +72,11 @@ public class Cliente {
     }
 
     public Set<Aluguel> getAlgueis() {
-        return algueis;
+        return alugueis;
     }
 
     public void setAlgueis(Set<Aluguel> algueis) {
-        this.algueis = algueis;
+        this.alugueis = algueis;
     }
 
     /*public String getSenha() {

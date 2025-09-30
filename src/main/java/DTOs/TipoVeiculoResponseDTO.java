@@ -1,33 +1,20 @@
 package DTOs;
 
-import jakarta.persistence.*;
-import models.Veiculo;
+import java.math.BigDecimal;
 
-import java.util.Set;
-
-public class TipoVeiculoDTO {
-
+public class TipoVeiculoResponseDTO {
 
     private Long id;
-
     private String name;
-
     private String descricao;
+    private BigDecimal precoDiario;
 
-    private double precoDiario;
 
-    private Set<Veiculo> veiculoSets;
-
-    public TipoVeiculoDTO() {
-
-    }
-
-    public TipoVeiculoDTO(Long id, String name, String descricao, double precoDiario, Set<Veiculo> veiculoSets) {
+    public TipoVeiculoResponseDTO(Long id, String name, String descricao, BigDecimal precoDiario) {
         this.id = id;
         this.name = name;
         this.descricao = descricao;
         this.precoDiario = precoDiario;
-        this.veiculoSets = veiculoSets;
     }
 
     public Long getId() {
@@ -54,19 +41,11 @@ public class TipoVeiculoDTO {
         this.descricao = descricao;
     }
 
-    public double getPrecoDiario() {
+    public BigDecimal getPrecoDiario() {
         return precoDiario;
     }
 
-    public void setPrecoDiario(double precoDiario) {
+    public void setPrecoDiario(BigDecimal precoDiario) {
         this.precoDiario = precoDiario;
-    }
-
-    public Set<Veiculo> getVeiculoSets() {
-        return veiculoSets;
-    }
-
-    public void setVeiculoSets(Set<Veiculo> veiculoSets) {
-        this.veiculoSets = veiculoSets;
     }
 }

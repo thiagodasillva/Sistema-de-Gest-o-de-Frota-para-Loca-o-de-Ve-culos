@@ -2,6 +2,8 @@ package models;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -19,16 +21,15 @@ public class TipoVeiculo {
     private String descricao;
 
     @Column(name = "diaria")
-    private double precoDiario;
+    private BigDecimal precoDiario;
 
-    @Column(name = "veiculos")
-    @OneToMany
+    @OneToMany(mappedBy = "tipoVeiculo", fetch = FetchType.LAZY)
     private Set<Veiculo> veiculoSets;
 
     public TipoVeiculo() {
     }
 
-    public TipoVeiculo(Long id, String name, String descricao, double precoDiario) {
+    public TipoVeiculo(Long id, String name, String descricao, BigDecimal precoDiario) {
         this.id = id;
         this.name = name;
         this.descricao = descricao;
@@ -59,11 +60,11 @@ public class TipoVeiculo {
         this.descricao = descricao;
     }
 
-    public double getPrecoDiario() {
+    public BigDecimal getPrecoDiario() {
         return precoDiario;
     }
 
-    public void setPrecoDiario(double precoDiario) {
+    public void setPrecoDiario(BigDecimal precoDiario) {
         this.precoDiario = precoDiario;
     }
 
@@ -73,5 +74,18 @@ public class TipoVeiculo {
 
     public void setVeiculoSets(Set<Veiculo> veiculoSets) {
         this.veiculoSets = veiculoSets;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TipoVeiculo that = (TipoVeiculo) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

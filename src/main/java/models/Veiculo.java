@@ -24,34 +24,36 @@ public class Veiculo {
     private String marca;
 
     @Column(name = "ano")
-    private Data ano;
+    private Integer ano;
 
     @Column(name = "cor")
     private String cor;
 
-    @Column(name = "disponivel")
-    private boolean disponivel;
+    @Column(name = "status")
+    private VeiculoStatus status = VeiculoStatus.DISPONIVEL;
 
     @ManyToOne
+    @JoinColumn(name = "tipoVeiculo")
     private TipoVeiculo tipoVeiculo;
 
-    @OneToMany
-    private Set<Aluguel> alugueis;
+    @OneToMany(mappedBy = "veiculo", fetch = FetchType.LAZY)
+    private Set<Aluguel> alugueis = new java.util.HashSet<>();
 
 
 
     public Veiculo() {
     }
 
-    public Veiculo(Long id, String placa, String modelo, String marca, Data ano, String cor, boolean disponivel, TipoVeiculo tipoVeiculo) {
+    public Veiculo(Long id, String placa, String modelo, String marca, Integer ano, String cor, VeiculoStatus status, TipoVeiculo tipoVeiculo, Set<Aluguel> alugueis) {
         this.id = id;
         this.placa = placa;
         this.modelo = modelo;
         this.marca = marca;
         this.ano = ano;
         this.cor = cor;
-        this.disponivel = disponivel;
+        this.status = status;
         this.tipoVeiculo = tipoVeiculo;
+        this.alugueis = alugueis;
     }
 
     public Long getId() {
@@ -86,11 +88,11 @@ public class Veiculo {
         this.marca = marca;
     }
 
-    public Data getAno() {
+    public Integer getAno() {
         return ano;
     }
 
-    public void setAno(Data ano) {
+    public void setAno(Integer ano) {
         this.ano = ano;
     }
 
@@ -102,14 +104,6 @@ public class Veiculo {
         this.cor = cor;
     }
 
-    public boolean isDisponivel() {
-        return disponivel;
-    }
-
-    public void setDisponivel(boolean disponivel) {
-        this.disponivel = disponivel;
-    }
-
     public TipoVeiculo getTipoVeiculo() {
         return tipoVeiculo;
     }
@@ -118,6 +112,21 @@ public class Veiculo {
         this.tipoVeiculo = tipoVeiculo;
     }
 
+    public VeiculoStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(VeiculoStatus status) {
+        this.status = status;
+    }
+
+    public Set<Aluguel> getAlugueis() {
+        return alugueis;
+    }
+
+    public void setAlugueis(Set<Aluguel> alugueis) {
+        this.alugueis = alugueis;
+    }
 
     @Override
     public boolean equals(Object o) {

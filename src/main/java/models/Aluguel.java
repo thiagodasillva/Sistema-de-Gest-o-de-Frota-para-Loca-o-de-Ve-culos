@@ -2,8 +2,10 @@ package models;
 
 import jakarta.persistence.*;
 
-import javax.xml.crypto.Data;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tb_aluguel")
@@ -14,38 +16,39 @@ public class Aluguel {
     private Long id;
 
     @Column(name = "inicio")
-    private LocalDate dataInicio;
+    private LocalDateTime dataInicio;
 
     @Column(name = "fim")
-    private LocalDate dataFim;
+    private LocalDateTime dataFim;
 
     @Column(name = "valor")
-    private float valorTotal;
+    private BigDecimal valorTotal;
 
-    @Column(name = "status")
-    private String status;
+    @Column(name = "taxa")
+    private BigDecimal taxaFixa;
 
-    @Column(name = "texa")
-    private float  taxaFixa;
 
-    @Column(name = "veiculo")
     @ManyToOne
+    @JoinColumn(name = "veiculo_id")
     private Veiculo veiculo;
 
-    @Column(name = "cliente")
     @ManyToOne
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private AluguelStatus status = AluguelStatus.ATIVO;
 
 
     public Aluguel() {
     }
 
-    public Aluguel(Long id, LocalDate dataInicio, LocalDate dataFim, float valorTotal, String status, float taxaFixa, Veiculo veiculo, Cliente cliente) {
+    public Aluguel(Long id, LocalDateTime dataInicio, LocalDateTime dataFim, BigDecimal valorTotal, BigDecimal taxaFixa, Veiculo veiculo, Cliente cliente) {
         this.id = id;
         this.dataInicio = dataInicio;
-        this.dataFim = dataFim;
+        this.dataFim =dataFim;
         this.valorTotal = valorTotal;
-        this.status = status;
         this.taxaFixa = taxaFixa;
         this.veiculo = veiculo;
         this.cliente = cliente;
@@ -59,43 +62,36 @@ public class Aluguel {
         this.id = id;
     }
 
-    public LocalDate getDataInicio() {
+    public LocalDateTime getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(LocalDate dataInicio) {
+    public void setDataInicio(LocalDateTime dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public LocalDate getDataFim() {
+    public LocalDateTime getDataFim() {
         return dataFim;
     }
 
-    public void setDataFim(LocalDate dataFim) {
+    public void setDataFim(LocalDateTime dataFim) {
         this.dataFim = dataFim;
     }
 
-    public float getValorTotal() {
+    public BigDecimal getValorTotal() {
         return valorTotal;
     }
 
-    public void setValorTotal(float valorTotal) {
+    public void setValorTotal(BigDecimal valorTotal) {
         this.valorTotal = valorTotal;
     }
 
-    public String getStatus() {
-        return status;
-    }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public float getTaxaFixa() {
+    public BigDecimal getTaxaFixa() {
         return taxaFixa;
     }
 
-    public void setTaxaFixa(float taxaFixa) {
+    public void setTaxaFixa(BigDecimal taxaFixa) {
         this.taxaFixa = taxaFixa;
     }
 
@@ -113,5 +109,26 @@ public class Aluguel {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public AluguelStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AluguelStatus status) {
+        this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Aluguel aluguel = (Aluguel) o;
+        return Objects.equals(id, aluguel.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
