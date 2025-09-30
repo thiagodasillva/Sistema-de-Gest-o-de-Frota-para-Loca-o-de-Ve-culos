@@ -6,6 +6,8 @@ import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.Repository.ClienteRepository;
 import jakarta.persistence.EntityNotFoundException;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.Cliente;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +19,12 @@ public class ClienteService {
     private ClienteRepository clienteRepository;
     private ModelMapper modelMapper;
 
-    public ClienteService(ClienteRepository clienteRepository, ModelMapper modelMapper) {
+    private PasswordEncoder passwordEncoder;
+
+    public ClienteService(ClienteRepository clienteRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
         this.clienteRepository = clienteRepository;
-        this.modelMapper=modelMapper;
+        this.modelMapper = modelMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Cliente DTOtoEntity(ClienteRequestDTO clienteDTO){
@@ -51,7 +56,13 @@ public class ClienteService {
     }
 
     public ClienteResponseDTO creatCliente(ClienteRequestDTO clienteDTO){
+        String cpfSemFormatacao = clienteDTO.getCpf().replaceAll("[^0-9]", "");
+        clienteDTO.setCpf(cpfSemFormatacao);
+
         Cliente cliente = DTOtoEntity(clienteDTO);
+        cliente.setPassword(passwordEncoder.encode(clienteDTO.getPassword()));
+
+
         clienteRepository.save(cliente);
         return EntityToDTO(cliente);
     }

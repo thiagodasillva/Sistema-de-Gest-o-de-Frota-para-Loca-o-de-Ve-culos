@@ -1,4 +1,4 @@
-package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.exception;
+//package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.exception;
 //
 //public class EntityNotFoundException extends RuntimeException{
 //

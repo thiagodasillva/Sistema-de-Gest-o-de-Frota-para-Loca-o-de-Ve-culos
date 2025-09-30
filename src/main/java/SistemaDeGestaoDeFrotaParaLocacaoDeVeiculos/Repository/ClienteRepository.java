@@ -14,4 +14,6 @@ public interface ClienteRepository extends JpaRepository<Cliente,Long> {
     Optional<Cliente> findByIdAndAtivoTrue(Long id);
     List<Cliente> findByAtivoTrue();
 
+    Cliente findByName(String nome);
+
 }

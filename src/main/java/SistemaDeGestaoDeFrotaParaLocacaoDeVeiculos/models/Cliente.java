@@ -1,13 +1,18 @@
 package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "tb_cliente")
-public class Cliente {
+public class Cliente implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +24,7 @@ public class Cliente {
     @Column(name = "tel")
     private String telefone;
 
-    @Column(name = "cpf")
+    @Column(name = "cpf", unique = true)
     private String cpf;
 
     @Column(name = "ativo")
@@ -29,7 +34,8 @@ public class Cliente {
     private Set<Aluguel> alugueis = new java.util.HashSet<>();
 
 
-    //private String senha;
+    @Column(name = "password", nullable = false)
+    private String password;
 
     public Cliente() {
     }
@@ -89,13 +95,83 @@ public class Cliente {
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
     }
-    /*public String getSenha() {
-        return senha;
+
+    public Set<Aluguel> getAlugueis() {
+        return alugueis;
     }
 
-    //public void setSenha(String senha) {
-        this.senha = senha;
-    }*/
+    public void setAlugueis(Set<Aluguel> alugueis) {
+        this.alugueis = alugueis;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
+
+
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        // Usaremos o CPF como "username", pois é único.
+        return this.cpf;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true; // A conta nunca expira
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true; // A conta nunca é bloqueada
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true; // As credenciais nunca expiram
+    }
+
+    @Override
+    public boolean isEnabled() {
+        // Use o seu campo de exclusão lógica!
+        return this.ativo;
+    }
+
+    // Não se esqueça do getter e setter para a nova senha
+    public String getSenha() { return password; }
+    public void setSenha(String senha) { this.password = senha; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public boolean equals(Object o) {
