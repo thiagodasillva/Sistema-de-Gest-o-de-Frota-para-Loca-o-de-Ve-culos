@@ -119,9 +119,10 @@ public class AluguelService {
       Aluguel aluguel = new Aluguel();
       aluguel.setCliente(cliente);
       aluguel.setVeiculo(veiculo);
-      aluguel.setDataInicio(aluguelDTO.getDataInicio());
+      aluguel.setDataInicio(aluguelDTO.getDataInicio().atStartOfDay());
       aluguel.setTaxaFixa(aluguelDTO.getTaxaFixa());
       aluguel.setStatus(AluguelStatus.ATIVO);
+      aluguel.setDataInicio(aluguelDTO.getDataInicio().atStartOfDay());
 
 
       veiculo.setStatus(ALUGADO);
@@ -142,7 +143,7 @@ public class AluguelService {
 
       aluguel.setCliente(cliente);
       aluguel.setVeiculo(veiculo);
-      aluguel.setDataInicio(aluguelDTO.getDataInicio());
+      aluguel.setDataInicio(aluguelDTO.getDataInicio().atStartOfDay());
       aluguel.setTaxaFixa(aluguelDTO.getTaxaFixa());
       aluguelRepository.save(aluguel);
 
@@ -197,6 +198,10 @@ public class AluguelService {
         aluguel.getVeiculo().setStatus(DISPONIVEL);
 
         aluguelRepository.save(aluguel);
+         BigDecimal valor = calcularAluguel(id);
+         aluguel.setValorTotal(valor);
+
+
         AluguelResponseDTO aluguelDTO = EntitytoDTO(aluguel);
         return aluguelDTO;
 

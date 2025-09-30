@@ -32,14 +32,14 @@ public class ClienteService {
 
     public List<ClienteResponseDTO> clientes(){
 
-        List<Cliente> clientes = clienteRepository.findAll();
+        List<Cliente> clientes = clienteRepository.findByAtivoTrue();
         List<ClienteResponseDTO> clienteDTOS = clientes.stream().map(cliente ->  EntityToDTO(cliente)).collect(Collectors.toList());
         return clienteDTOS;
     }
 
     public ClienteResponseDTO getCliente(Long id){
 
-        Cliente cliente= clienteRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Cliente com id " + id + " não encontrado."));
+        Cliente cliente= clienteRepository.findByIdAndAtivoTrue(id).orElseThrow(()-> new EntityNotFoundException("Cliente com id " + id + " não encontrado."));
         return EntityToDTO(cliente);
 
     }
@@ -71,10 +71,13 @@ public class ClienteService {
 
     }
 
-    public ClienteResponseDTO deletarCliente(Long id){
+    public void deletarCliente(Long id){
         Cliente cliente= clienteRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Cliente com id " + id + " não encontrado."));
-        clienteRepository.delete(cliente);
-        return EntityToDTO(cliente);
+
+
+        cliente.setAtivo(false);
+
+        clienteRepository.save(cliente);
     }
 
 }

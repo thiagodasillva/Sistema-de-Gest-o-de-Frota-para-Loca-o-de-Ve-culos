@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Pattern;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class AluguelResquestDTO {
 
@@ -22,14 +22,14 @@ public class AluguelResquestDTO {
 
     @NotNull(message = "A data de início é obrigatória")
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDateTime dataInicio;
+    private LocalDate dataInicio;
 
 
 
     public AluguelResquestDTO() {
     }
 
-    public AluguelResquestDTO(Long clienteId, Long veiculoId, BigDecimal taxaFixa, LocalDateTime dataInicio) {
+    public AluguelResquestDTO(Long clienteId, Long veiculoId, BigDecimal taxaFixa, LocalDate dataInicio) {
         this.clienteId = clienteId;
         this.veiculoId = veiculoId;
         this.taxaFixa = taxaFixa;
@@ -60,11 +60,11 @@ public class AluguelResquestDTO {
         this.taxaFixa = taxaFixa;
     }
 
-    public LocalDateTime getDataInicio() {
+    public LocalDate getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(LocalDateTime dataInicio) {
+    public void setDataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
     }
 }

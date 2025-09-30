@@ -109,7 +109,9 @@ public class VeiculoService {
         if(veiculo.getStatus() != DISPONIVEL){
             throw new RuntimeException("Não é possível deletar veículo com aluguéis associados");
         }
-        veiculoRepository.delete(veiculo);
+
+        veiculo.setAtivo(false);
+        veiculoRepository.save(veiculo);
 
 
     }

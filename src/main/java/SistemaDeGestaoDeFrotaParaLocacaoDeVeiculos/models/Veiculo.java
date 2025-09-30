@@ -1,10 +1,11 @@
 package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Where;
 
 import java.util.Objects;
 import java.util.Set;
-
+@Where(clause = "ativo = true")
 @Entity
 @Table(name = "tb_veiculo")
 public class Veiculo {
@@ -34,6 +35,9 @@ public class Veiculo {
     @ManyToOne
     @JoinColumn(name = "tipoVeiculo")
     private TipoVeiculo tipoVeiculo;
+
+    @Column(name = "ativo")
+    private boolean ativo = true;
 
     @OneToMany(mappedBy = "veiculo", fetch = FetchType.LAZY)
     private Set<Aluguel> alugueis = new java.util.HashSet<>();
@@ -125,6 +129,14 @@ public class Veiculo {
 
     public void setAlugueis(Set<Aluguel> alugueis) {
         this.alugueis = alugueis;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 
     @Override

@@ -4,6 +4,7 @@ import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.VeiculoRequestDTO;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.VeiculoResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +60,7 @@ private VeiculoService veiculoService;
     @PostMapping
     public ResponseEntity<VeiculoResponseDTO> criarVeiculo(@Valid @RequestBody VeiculoRequestDTO veiculoDTO){
         VeiculoResponseDTO veiculoDTO1 = veiculoService.creatVeiculo(veiculoDTO);
-        return ResponseEntity.ok(veiculoDTO1);
+        return ResponseEntity.status(HttpStatus.CREATED).body(veiculoDTO1);
     }
 
 

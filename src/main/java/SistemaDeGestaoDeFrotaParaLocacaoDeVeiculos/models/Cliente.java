@@ -22,6 +22,9 @@ public class Cliente {
     @Column(name = "cpf")
     private String cpf;
 
+    @Column(name = "ativo")
+    private boolean ativo = true;
+
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Aluguel> alugueis = new java.util.HashSet<>();
 
@@ -79,6 +82,13 @@ public class Cliente {
         this.alugueis = algueis;
     }
 
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
     /*public String getSenha() {
         return senha;
     }
