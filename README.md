@@ -12,27 +12,36 @@ Tipos de Veículo: CRUD completo.
 
 Aluguéis: Criação, finalização e cancelamento de aluguéis.
 
-### Segurança: Autenticação de usuários via JWT (login com CPF e senha).
-### Validações: Validação de dados de entrada, incluindo formato de CPF.
-### centralized Tratamento de Exceções: Respostas de erro padronizadas para uma melhor experiência do cliente da API.
-### Documentação: Documentação interativa da API com Swagger (OpenAPI).
+ Segurança: Autenticação de usuários via JWT (login com CPF e senha).
+ Validações: Validação de dados de entrada, incluindo formato de CPF.
+ centralized Tratamento de Exceções: Respostas de erro padronizadas para uma melhor experiência do cliente da API.
+ Documentação: Documentação interativa da API com Swagger (OpenAPI).
 
 # Como Executar o Projeto
 
 Primeiro, clone o repositório usando o comando: git clone https://github.com/thiagodasillva/Sistema-de-Gest-o-de-Frota-para-Loca-o-de-Ve-culos.git
 
 Abra o projeto na sua IDE. 
+Abra o projeto na sua IDE de preferência. A IDE deverá reconhecer o projeto como Maven e baixar as dependências automaticamente.
 
-## Execute a aplicação:
+Execute a aplicação:
 
-Encontre a classe principal SistemaDeGestaoDeFrotaParaLocacaoDeVeiculosApplication.java.
+Encontre a classe principal: SistemaDeGestaoDeFrotaParaLocacaoDeVeiculosApplication.java.
 
-Clique com o botão direito sobre ela e selecione "Run".
+Clique com o botão direito sobre ela e selecione a opção "Run".
 
 Verifique se a aplicação está no ar:
+O servidor estará rodando em http://localhost:8080. Você pode verificar os seguintes endpoints no seu navegador:
 
-O servidor estará rodando em http://localhost:8080. Você verá os logs do Spring no console da sua IDE.
+Documentação Swagger UI: http://localhost:8080/swagger-ui.html
 
+Console do Banco H2: http://localhost:8080/h2-ui
+
+JDBC URL: jdbc:h2:mem:testdb
+
+User Name: sa
+
+Password: (deixe em branco)
 
 # Tecnologias Utilizadas
 Java 17
@@ -71,4 +80,4 @@ Um cliente de API como Postman ou Insomnia (opcional, pois o Swagger já oferece
 
 
 
-Desenvolvido por [Thiago Raimundo da Silva]
+Desenvolvidor: [Thiago Raimundo da Silva]
