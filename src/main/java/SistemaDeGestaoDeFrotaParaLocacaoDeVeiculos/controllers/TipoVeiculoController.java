@@ -1,4 +1,4 @@
-package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.Controllers;
+package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.controllers;
 
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.TipoVeiculoRequestDTO;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.TipoVeiculoResponseDTO;
@@ -61,11 +61,13 @@ public class TipoVeiculoController {
     }
 
 
-    @PutMapping("/preco/{id}")
+    @PatchMapping("/preco/{id}")
     public ResponseEntity<TipoVeiculoResponseDTO> alterarPrecoDiario(@PathVariable Long id,@Min(3) @RequestParam BigDecimal precoDiario){
         TipoVeiculoResponseDTO tipoVeiculoDTO = tipoVeiucloService.updatePrecoDiario(id,precoDiario);
         return ResponseEntity.ok(tipoVeiculoDTO);
     }
+
+
 
 
 

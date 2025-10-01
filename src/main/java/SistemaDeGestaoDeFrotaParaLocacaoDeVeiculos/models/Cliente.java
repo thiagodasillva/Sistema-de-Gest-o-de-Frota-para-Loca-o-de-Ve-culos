@@ -123,25 +123,25 @@ public class Cliente implements UserDetails {
         return this.password;
     }
 
+    // o CPF vai ser o userName para o cliente
     @Override
     public String getUsername() {
-        // Usaremos o CPF como "username", pois é único.
         return this.cpf;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return true; // A conta nunca expira
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true; // A conta nunca é bloqueada
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; // As credenciais nunca expiram
+        return true;
     }
 
     @Override
@@ -150,7 +150,6 @@ public class Cliente implements UserDetails {
         return this.ativo;
     }
 
-    // Não se esqueça do getter e setter para a nova senha
     public String getSenha() { return password; }
     public void setSenha(String senha) { this.password = senha; }
 

@@ -1,4 +1,4 @@
-package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.Controllers;
+package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.controllers;
 
 
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.AluguelResponseDTO;
@@ -50,6 +50,13 @@ public class AluguelController {
         return ResponseEntity.ok(aluguelDTOS);
     }
 
+
+    @GetMapping("/ativo")
+    public ResponseEntity<List<AluguelResponseDTO>> listagemAtivos(){
+        List<AluguelResponseDTO> aluguelResponseDTOS = aluguelService.listAlugueisAtivos();
+        return ResponseEntity.ok(aluguelResponseDTOS);
+    }
+
     @GetMapping("/periodo")
     public ResponseEntity<List<AluguelResponseDTO>> listarPorPeriodo(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
                                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime fim){
@@ -76,8 +83,6 @@ public class AluguelController {
     }
 
 
-
-    // ROTAS que representam AÇÕES sobre um recurso
     @PostMapping("/{id}/finalizar")
     public ResponseEntity<AluguelResponseDTO> finalizarAluguel(@PathVariable Long id) {
         AluguelResponseDTO aluguelFinalizado = aluguelService.finalizar(id);
@@ -90,7 +95,7 @@ public class AluguelController {
         return ResponseEntity.ok(aluguelCancelado);
     }
 
-    // Endpoint para obter um valor calculado
+
     @GetMapping("/{id}/valor")
     public ResponseEntity<BigDecimal> calcularValorTotal(@PathVariable Long id) {
         BigDecimal valorTotal = aluguelService.calcularAluguel(id);

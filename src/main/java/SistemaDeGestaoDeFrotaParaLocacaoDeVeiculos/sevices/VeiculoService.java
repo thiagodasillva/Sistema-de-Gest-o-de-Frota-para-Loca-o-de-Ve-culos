@@ -1,9 +1,10 @@
 package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.sevices;
 
+import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.DisponibilidadeResponseDTO;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.VeiculoRequestDTO;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.VeiculoResponseDTO;
-import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.Repository.TipoVeiculoRepository;
-import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.Repository.VeiculoRepository;
+import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.repository.TipoVeiculoRepository;
+import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.repository.VeiculoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.Aluguel;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.TipoVeiculo;
@@ -118,14 +119,21 @@ public class VeiculoService {
 
     // metodos de negocio
 
-    public boolean verifcarDisponibilidade(Long veiculoId, LocalDateTime inicio, LocalDateTime fim){
+    public DisponibilidadeResponseDTO verifcarDisponibilidade(Long veiculoId, LocalDateTime inicio, LocalDateTime fim){
 
         Veiculo veiculo = veiculoRepository.findById(veiculoId).orElseThrow(()-> new EntityNotFoundException("não existe Veiculo com o id informado"));
 
         if(veiculo.getStatus() != DISPONIVEL){
-          return false;
+            return new DisponibilidadeResponseDTO(false, "Veículo não está disponível para locação");
         }
-        return veiculo.getAlugueis().stream().noneMatch(aluguel -> existeConflitoDatas(aluguel,inicio,fim));
+
+
+        boolean disponibilidade =  veiculo.getAlugueis().stream().noneMatch(aluguel -> existeConflitoDatas(aluguel,inicio,fim));
+
+        if(disponibilidade){
+            return new DisponibilidadeResponseDTO(false, "Veículo já está alugado no período solicitado");
+        }
+        return new DisponibilidadeResponseDTO(true, "Veículo disponível para locação no período solicitado");
 
     }
 

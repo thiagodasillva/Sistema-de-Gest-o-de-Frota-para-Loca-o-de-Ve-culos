@@ -1,5 +1,6 @@
-package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.Controllers;
+package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.controllers;
 
+import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.DisponibilidadeResponseDTO;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.VeiculoRequestDTO;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.VeiculoResponseDTO;
 import jakarta.validation.Valid;
@@ -77,12 +78,14 @@ private VeiculoService veiculoService;
     }
 
     @GetMapping("/{id}/disponibilidade")
-    public ResponseEntity<Boolean> verificarDisponibilidade(
+    public ResponseEntity<DisponibilidadeResponseDTO> verificarDisponibilidade(
             @PathVariable Long id,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fim) {
-        boolean disponivel = veiculoService.verifcarDisponibilidade(id, inicio, fim);
-        return ResponseEntity.ok(disponivel);
+        DisponibilidadeResponseDTO disponibilidadeResponse = veiculoService.verifcarDisponibilidade(id, inicio, fim);
+
+
+        return ResponseEntity.ok(disponibilidadeResponse);
     }
 
 

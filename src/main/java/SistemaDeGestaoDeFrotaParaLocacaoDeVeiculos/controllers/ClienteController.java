@@ -1,4 +1,4 @@
-package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.Controllers;
+package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.controllers;
 
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.ClienteRequestDTO;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.ClienteResponseDTO;

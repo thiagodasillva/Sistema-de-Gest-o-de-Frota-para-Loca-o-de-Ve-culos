@@ -2,11 +2,10 @@ package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.sevices;
 
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.ClienteRequestDTO;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.ClienteResponseDTO;
-import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.Repository.ClienteRepository;
+import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.repository.ClienteRepository;
 import jakarta.persistence.EntityNotFoundException;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.Cliente;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

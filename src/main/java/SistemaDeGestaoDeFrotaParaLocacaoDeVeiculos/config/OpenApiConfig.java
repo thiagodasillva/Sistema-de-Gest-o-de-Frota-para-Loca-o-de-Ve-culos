@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
                 version = "1.0",
                 description = "Documentação da API para o sistema de gestão de frota e locação de veículos."
         ),
-        security = @SecurityRequirement(name = "bearerAuth") // Aplica segurança globalmente
+        security = @SecurityRequirement(name = "bearerAuth")
 )
 @SecurityScheme(
         name = "bearerAuth",

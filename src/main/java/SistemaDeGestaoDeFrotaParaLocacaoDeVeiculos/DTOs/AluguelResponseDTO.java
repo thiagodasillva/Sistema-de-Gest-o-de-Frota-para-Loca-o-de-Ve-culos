@@ -12,8 +12,6 @@ public class AluguelResponseDTO {
     private LocalDateTime dataFim;
     private BigDecimal valorTotal;
     private AluguelStatus status;
-
-    // Em vez dos objetos completos, usamos IDs e nomes
     private Long clienteId;
     private String clienteNome;
     private Long veiculoId;

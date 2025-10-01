@@ -1,4 +1,4 @@
-package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.Repository;
+package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.repository;
 
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.TipoVeiculo;
 import org.springframework.data.jpa.repository.JpaRepository;

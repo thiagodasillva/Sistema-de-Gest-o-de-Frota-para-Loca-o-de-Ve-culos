@@ -2,9 +2,9 @@ package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.sevices;
 
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.AluguelResponseDTO;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.AluguelResquestDTO;
-import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.Repository.AluguelRepository;
-import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.Repository.ClienteRepository;
-import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.Repository.VeiculoRepository;
+import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.repository.AluguelRepository;
+import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.repository.ClienteRepository;
+import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.repository.VeiculoRepository;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.Aluguel;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.AluguelStatus;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.Cliente;
@@ -91,18 +91,18 @@ public class AluguelService {
     }
 
     public List<AluguelResponseDTO> listarAluguelPorPeriodo(LocalDateTime dataInicio, LocalDateTime dataFim){
-        List<Aluguel> aluguelList = aluguelRepository.findByDataInicioBetween(dataInicio,dataFim).orElseThrow(()-> new EntityNotFoundException("Não existtem"));
+        List<Aluguel> aluguelList = aluguelRepository.findByDataInicioBetween(dataInicio,dataFim).orElseThrow(()-> new EntityNotFoundException("Não Existe nenhum alugel nesse periodo"));
         List<AluguelResponseDTO> aluguelDTOList = aluguelList.stream().map(aluguel -> EntitytoDTO(aluguel)).collect(Collectors.toList());
         return aluguelDTOList;
     }
 
 
 
-//  public List<AluguelDTO> listAlugueisAtivos(){
-//      List<Aluguel> aluguelList = aluguelRepository.finsBystatus(DISPONIVEL).orElseThrow(()-> new RuntimeException("Não existem alugueis ativos"));
-//      List<AluguelDTO> aluguelDTOS = aluguelList.stream().map(aluguel -> EntitytoDTO(aluguel)).collect(Collectors.toList());
-//      return aluguelDTOS;
-//  }
+  public List<AluguelResponseDTO> listAlugueisAtivos(){
+      List<Aluguel> aluguelList = aluguelRepository.findByStatus(ATIVO).orElseThrow(()-> new RuntimeException("Não existem alugueis ativos"));
+      List<AluguelResponseDTO> aluguelDTOS = aluguelList.stream().map(aluguel -> EntitytoDTO(aluguel)).collect(Collectors.toList());
+      return aluguelDTOS;
+  }
 
 
 
