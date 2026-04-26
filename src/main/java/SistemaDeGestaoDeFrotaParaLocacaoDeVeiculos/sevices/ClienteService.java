@@ -3,7 +3,7 @@ package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.sevices;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.ClienteRequestDTO;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.ClienteResponseDTO;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.repository.ClienteRepository;
-import jakarta.persistence.EntityNotFoundException;
+import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.exception.EntityNotFoundException;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.Cliente;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,8 +42,7 @@ public class ClienteService {
     }
 
     public ClienteResponseDTO getCliente(Long id){
-
-        Cliente cliente= clienteRepository.findByIdAndAtivoTrue(id).orElseThrow(()-> new EntityNotFoundException("Cliente com id " + id + " não encontrado."));
+        Cliente cliente = clienteRepository.findByIdAndAtivoTrue(id).orElseThrow(()-> new EntityNotFoundException("Cliente com id " + id + " não encontrado."));
         return EntityToDTO(cliente);
 
     }
@@ -61,7 +60,6 @@ public class ClienteService {
         Cliente cliente = DTOtoEntity(clienteDTO);
         cliente.setPassword(passwordEncoder.encode(clienteDTO.getPassword()));
 
-
         clienteRepository.save(cliente);
         return EntityToDTO(cliente);
     }
@@ -72,19 +70,17 @@ public class ClienteService {
         Cliente cliente= clienteRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Cliente com id " + id + " não encontrado."));
 
         cliente.setName(clienteDTO.getName());
-        cliente.setCpf(clienteDTO.getCpf());
+        cliente.setCpf(clienteDTO.getCpf().replaceAll("[^0-9]",""));
         cliente.setTelefone(clienteDTO.getTelefone());
 
         clienteRepository.save(cliente);
 
-           return EntityToDTO(cliente);
+        return EntityToDTO(cliente);
 
     }
 
     public void deletarCliente(Long id){
         Cliente cliente= clienteRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Cliente com id " + id + " não encontrado."));
-
-
         cliente.setAtivo(false);
 
         clienteRepository.save(cliente);

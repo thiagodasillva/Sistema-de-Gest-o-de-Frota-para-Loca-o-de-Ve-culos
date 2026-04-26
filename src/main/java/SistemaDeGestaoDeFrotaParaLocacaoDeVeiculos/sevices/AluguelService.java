@@ -9,7 +9,7 @@ import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.Aluguel;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.AluguelStatus;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.Cliente;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.Veiculo;
-import jakarta.persistence.EntityNotFoundException;
+import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.exception.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -128,9 +128,6 @@ public class AluguelService {
       veiculo.setStatus(ALUGADO);
       aluguelRepository.save(aluguel);
 
-      aluguelRepository.save(aluguel);
-
-
       return EntitytoDTO(aluguel);
 
   }
@@ -169,7 +166,7 @@ public class AluguelService {
 
         }
 
-      return  null;
+        throw  new EntityNotFoundException("Não existe nenhum aluguel com esse id");
 
     }
 
@@ -184,7 +181,7 @@ public class AluguelService {
 
         }
 
-        return null;
+        throw new EntityNotFoundException("Não existe nenhum aluguel com esse id");
 
 
     }
@@ -196,10 +193,10 @@ public class AluguelService {
         aluguel.setDataFim(LocalDateTime.now());
 
         aluguel.getVeiculo().setStatus(DISPONIVEL);
-
-        aluguelRepository.save(aluguel);
          BigDecimal valor = calcularAluguel(id);
          aluguel.setValorTotal(valor);
+
+        aluguelRepository.save(aluguel);
 
 
         AluguelResponseDTO aluguelDTO = EntitytoDTO(aluguel);

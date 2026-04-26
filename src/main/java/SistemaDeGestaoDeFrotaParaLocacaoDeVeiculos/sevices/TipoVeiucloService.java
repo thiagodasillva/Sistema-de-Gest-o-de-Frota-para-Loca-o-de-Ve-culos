@@ -4,7 +4,7 @@ import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.TipoVeiculoRequestDTO;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.TipoVeiculoResponseDTO;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.repository.TipoVeiculoRepository;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.repository.VeiculoRepository;
-import jakarta.persistence.EntityNotFoundException;
+import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.exception.EntityNotFoundException;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.TipoVeiculo;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

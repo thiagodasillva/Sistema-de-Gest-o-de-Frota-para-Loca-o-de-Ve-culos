@@ -5,7 +5,7 @@ import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.VeiculoRequestDTO;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.VeiculoResponseDTO;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.repository.TipoVeiculoRepository;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.repository.VeiculoRepository;
-import jakarta.persistence.EntityNotFoundException;
+import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.exception.EntityNotFoundException;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.Aluguel;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.TipoVeiculo;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.models.Veiculo;
@@ -127,18 +127,21 @@ public class VeiculoService {
             return new DisponibilidadeResponseDTO(false, "Veículo não está disponível para locação");
         }
 
+        boolean conflito =  veiculo.getAlugueis().stream().noneMatch(aluguel -> existeConflitoDatas(aluguel,inicio,fim));
 
-        boolean disponibilidade =  veiculo.getAlugueis().stream().noneMatch(aluguel -> existeConflitoDatas(aluguel,inicio,fim));
-
-        if(disponibilidade){
-            return new DisponibilidadeResponseDTO(false, "Veículo já está alugado no período solicitado");
+        if(conflito){
+            return new DisponibilidadeResponseDTO(true, "Veículo disponível para locação no período solicitado");
         }
-        return new DisponibilidadeResponseDTO(true, "Veículo disponível para locação no período solicitado");
-
+        return new DisponibilidadeResponseDTO(false, "Veículo já está alugado no período solicitado");
     }
 
     private boolean existeConflitoDatas(Aluguel aluguel, LocalDateTime inicio, LocalDateTime fim){
-        return inicio.isBefore(aluguel.getDataFim()) && fim.isAfter(aluguel.getDataInicio());
+
+
+        Boolean comecoEFimAntes = inicio.isBefore(aluguel.getDataInicio()) && fim.isBefore(aluguel.getDataInicio());
+        Boolean comecoEFimDepois = inicio.isAfter(aluguel.getDataFim()) && fim.isAfter(aluguel.getDataFim());
+
+        return !(comecoEFimAntes || comecoEFimDepois);
     }
 
 
