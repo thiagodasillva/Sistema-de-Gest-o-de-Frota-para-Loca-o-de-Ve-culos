@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/veiculo")
 @Validated
+@CrossOrigin(origins = "*")
 public class VeiculoControler {
 
 

@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/tv")
 @Validated
+@CrossOrigin(origins = "*")
 public class TipoVeiculoController {
 
     public TipoVeiucloService tipoVeiucloService;

@@ -16,8 +16,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/aluguel")
 @Validated
+@CrossOrigin(origins = "*")
+@RequestMapping("/api/aluguel")
+
 
 
 public class AluguelController {

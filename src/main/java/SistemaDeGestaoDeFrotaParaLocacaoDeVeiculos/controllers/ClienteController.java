@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/cliente")
 @Validated
+@CrossOrigin(origins = "*")
 public class ClienteController {
 
     private ClienteService clienteService;

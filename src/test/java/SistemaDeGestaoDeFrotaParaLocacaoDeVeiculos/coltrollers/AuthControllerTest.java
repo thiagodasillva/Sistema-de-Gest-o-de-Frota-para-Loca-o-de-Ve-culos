@@ -9,6 +9,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.notNullValue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -19,16 +20,17 @@ public class AuthControllerTest {
     @LocalServerPort
     private int port;
 
+    public static String token;
+
     @BeforeEach
     public void setup() {
         RestAssured.port = port;
-        // Removi o basePath para usarmos o caminho completo nas chamadas abaixo
     }
 
     @Test
-    public void deveFazerLoginEUsarTokenEmRotaProtegida() {
+    public void testDadoOUsuarioDeveCriarUmaContaLogar() {
 
-        //criando cliente
+        //dados do cliente
         String jsonCliente = """
                 {
                     "name": "Carlos Silva",
@@ -37,18 +39,19 @@ public class AuthControllerTest {
                     "password": "senhaSecreta"
                 }
                 """;
-        // NOTA: Coloquei um CPF matematicamente válido ("52998224725") para passar no seu @CPF.
 
-        System.out.println("--- TENTANDO CRIAR CLIENTE ---");
+        // criandoCliente
         given()
-                .log().all() // <--- Vai imprimir a requisição no terminal
+                .log().all()
                 .contentType(ContentType.JSON)
                 .body(jsonCliente)
                 .when()
                 .post("/api/cliente") // Caminho absoluto
                 .then()
-                .log().all() // <--- Vai imprimir a resposta do erro 403 no terminal!
+                .log().all()
                 .statusCode(201);
+
+
 
         String jsonLogin = """
                 {
@@ -56,20 +59,24 @@ public class AuthControllerTest {
                     "password": "senhaSecreta"
                 }
                 """;
-        // fazendo login
-        String token = given()
-                .log().all()
-                .contentType(ContentType.JSON)
-                .body(jsonLogin)
-                .when()
-                .post("/api/auth/login")
-                .then()
-                .log().all()
-                .statusCode(200)
-                .body("token", notNullValue())
-                .extract().path("token");
 
-        // usar o token para acessar a rota
+
+        // fazendo login
+            token = given()
+                .log().all()
+                    .contentType(ContentType.JSON)
+                    .body(jsonLogin) // corpo em json para inserir
+                .when()
+                    .post("/api/auth/login")
+                .then()
+                    .log().all()
+                    .statusCode(200)
+                    .body("token", notNullValue())
+                    .extract().path("token");
+
+
+
+        // usar o token para acessar a rota, usar em todos os testes de requisições
         given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
@@ -78,7 +85,131 @@ public class AuthControllerTest {
                 .then()
                 .log().all()
                 .statusCode(200);
+
+
     }
+
+
+    @Test
+    public void testDadoOUsuarioDeveCriarUmaContaTentarLogarComSenhaIncorreta() {
+
+        //dados do cliente
+        String jsonCliente = """
+                {
+                    "name": "Carlos Silva",
+                    "telefone": "11988888888",
+                    "cpf": "52998224725", 
+                    "password": "senhaSecreta"
+                }
+                """;
+
+        // criandoCliente
+        given()
+                .log().all()
+                .contentType(ContentType.JSON)
+                .body(jsonCliente)
+                .when()
+                .post("/api/cliente") // Caminho absoluto
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+
+        String jsonLogin = """
+                {
+                    "cpf": "52998224725",
+                    "password": "senhaErrada"
+                }
+                """;
+
+
+        // fazendo login
+        token = given()
+                .log().all()
+                .contentType(ContentType.JSON)
+                .body(jsonLogin) // corpo em json para inserir
+                .when()
+                .post("/api/auth/login")
+                .then()
+                .log().all()
+                .statusCode(500).toString();
+    }
+
+    @Test
+    public void testDadoOUsuarioDeveCriarUmaContaTentarLogarComCPFIncorreta() {
+
+        //dados do cliente
+        String jsonCliente = """
+                {
+                    "name": "Carlos Silva",
+                    "telefone": "11988888888",
+                    "cpf": "52998224725", 
+                    "password": "senhaSecreta"
+                }
+                """;
+
+        // criandoCliente
+        given()
+                .log().all()
+                .contentType(ContentType.JSON)
+                .body(jsonCliente)
+                .when()
+                .post("/api/cliente") // Caminho absoluto
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+
+        String jsonLogin = """
+                {
+                    "cpf": "52998224742",
+                    "password": "senhaSecreta"
+                }
+                """;
+
+
+        // fazendo login
+        token = given()
+                .log().all()
+                .contentType(ContentType.JSON)
+                .body(jsonLogin) // corpo em json para inserir
+                .when()
+                .post("/api/auth/login")
+                .then()
+                .log().all()
+                .statusCode(500).toString();
+
+
+    }
+
+
+
+    @Test
+    public void testLoginSemAutenticacao() {
+        String jsonLogin = """
+                {
+                    "cpf": "52998224725",
+                    "password": "senha123"
+                }
+                """;
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(jsonLogin)
+                .when()
+                .post("/api/auth/login")
+                .then()
+                .log().all()
+                .statusCode(500);
+    }
+
+
+
+
+
+
 
 
 }
