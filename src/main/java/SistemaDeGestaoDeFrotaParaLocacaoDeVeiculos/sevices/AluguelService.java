@@ -2,6 +2,8 @@ package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.sevices;
 
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.AluguelResponseDTO;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs.AluguelResquestDTO;
+import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.exception.DateConflictException;
+import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.exception.VeiculoStatusError;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.repository.AluguelRepository;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.repository.ClienteRepository;
 import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.repository.VeiculoRepository;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -91,7 +94,11 @@ public class AluguelService {
     }
 
     public List<AluguelResponseDTO> listarAluguelPorPeriodo(LocalDateTime dataInicio, LocalDateTime dataFim){
-        List<Aluguel> aluguelList = aluguelRepository.findByDataInicioBetween(dataInicio,dataFim).orElseThrow(()-> new EntityNotFoundException("Não Existe nenhum alugel nesse periodo"));
+
+        if(dataInicio.isAfter(dataFim)){
+            throw new DateConflictException("Conflito de dados: A data inicial não pode ser posterior à data final.");
+        }
+        List<Aluguel> aluguelList = aluguelRepository.findByDataInicioBetween(dataInicio,dataFim).orElse(Collections.emptyList());
         List<AluguelResponseDTO> aluguelDTOList = aluguelList.stream().map(aluguel -> EntitytoDTO(aluguel)).collect(Collectors.toList());
         return aluguelDTOList;
     }
@@ -113,7 +120,7 @@ public class AluguelService {
       Veiculo veiculo = veiculoRepository.findById(aluguelDTO.getVeiculoId()).orElseThrow(() -> new EntityNotFoundException("Veiculo nãp emcontrado"));
 
       if(veiculo.getStatus() != DISPONIVEL){
-          throw new RuntimeException("Veículo não está disponível para aluguel.");
+          throw new VeiculoStatusError("Veículo não está disponível para aluguel.");
       }
 
       Aluguel aluguel = new Aluguel();
@@ -135,8 +142,8 @@ public class AluguelService {
   public AluguelResponseDTO update(Long id, AluguelResquestDTO aluguelDTO){
 
       Aluguel aluguel = aluguelRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Não existe nenhum aluguel com esse id"));
-      Cliente cliente = clienteRepository.findById(aluguelDTO.getClienteId()).orElseThrow(()->new EntityNotFoundException("Não existe nenhum cliente com esse id"));
-      Veiculo veiculo = veiculoRepository.findById(aluguel.getId()).orElseThrow(()-> new EntityNotFoundException("Não existe nenhum cliente com esse id"));
+      Cliente cliente = clienteRepository.findById(aluguelDTO.getClienteId()).orElseThrow(()-> new EntityNotFoundException("Não existe nenhum cliente com esse id"));
+      Veiculo veiculo = veiculoRepository.findById(aluguelDTO.getVeiculoId()).orElseThrow(()-> new EntityNotFoundException("Não existe nenhum cliente com esse id"));
 
       aluguel.setCliente(cliente);
       aluguel.setVeiculo(veiculo);

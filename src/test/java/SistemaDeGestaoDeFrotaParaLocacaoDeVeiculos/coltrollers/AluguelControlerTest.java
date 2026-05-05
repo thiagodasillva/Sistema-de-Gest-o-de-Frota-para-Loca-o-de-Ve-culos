@@ -82,9 +82,458 @@ public class AluguelControlerTest {
                 .statusCode(200);
     }
 
+    @Test
+    public void testDadoUsuarioDeveCriarAluguel(){
+
+        String jsonTipoVeiculo = """
+                {
+                    
+                     "name": "SUV de Luxo",
+                     "descricao": "Veículo de alto padrão com mais conforto",
+                     "precoDiario": 400.00
+                  
+                }
+                """;
+
+        String jsonVeiculo = """
+                {
+                   
+                    "placa": "RTT-2A24",
+                    "modelo": "Onix",
+                    "marca": "Chevrolet",
+                    "ano": 2023,
+                    "cor": "Prata",
+                    "tipoVeiculo": 1,
+                    "status": "DISPONIVEL"                  
+                }
+                """;
+
+
+        String jsonAluguel = """
+                {
+                   
+                    "clienteId": 1,
+                    "veiculoId": 1,
+                    "taxaFixa": 50.00,
+                    "dataInicio": "01/01/2026"               
+                }
+                """;
+
+
+        //criar TipotipoVeiculo
+        given()
+                .header("Authorization","Bearer " + token)
+                .body(jsonTipoVeiculo)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/tv")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        //criar Veiculo
+        given()
+                .header("Authorization","Bearer " + token)
+                .body(jsonVeiculo)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/veiculo")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        //criarAluguiel
+        given()
+                .header("Authorization","Bearer " + token)
+                .body(jsonAluguel)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/aluguel")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+    }
 
     @Test
-    public void testDadoUsuarioLogadoCadastrarUmTipoVeiculoUmVeiculoCriarAlugielEListaAluguelAtivo(){
+    public void testDadoUsuarioDeveCriarAluguelComDadosIncompletos(){
+
+        String jsonTipoVeiculo = """
+                {
+                    
+                     "name": "SUV de Luxo",
+                     "descricao": "Veículo de alto padrão com mais conforto",
+                     "precoDiario": 400.00
+                  
+                }
+                """;
+
+        String jsonVeiculo = """
+                {
+                   
+                    "placa": "RTT-2A24",
+                    "modelo": "Onix",
+                    "marca": "Chevrolet",
+                    "ano": 2023,
+                    "cor": "Prata",
+                    "tipoVeiculo": 1,
+                    "status": "DISPONIVEL"                  
+                }
+                """;
+
+
+        String jsonAluguel = """
+                {
+                   
+                    "clienteId": 1,
+                    "veiculoId": 1,
+                    "dataInicio": "01/01/2026"               
+                }
+                """;
+
+
+        //criar TipotipoVeiculo
+        given()
+                .header("Authorization","Bearer " + token)
+                .body(jsonTipoVeiculo)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/tv")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        //criar Veiculo
+        given()
+                .header("Authorization","Bearer " + token)
+                .body(jsonVeiculo)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/veiculo")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        //criarAluguiel
+        given()
+                .header("Authorization","Bearer " + token)
+                .body(jsonAluguel)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/aluguel")
+                .then()
+                .log().all()
+                .statusCode(400);
+
+    }
+
+    @Test
+    public void testDadoUsuarioDeveCriarAluguelComDadosDeIdUsuarioIncorreto(){
+
+        String jsonTipoVeiculo = """
+                {
+                    
+                     "name": "SUV de Luxo",
+                     "descricao": "Veículo de alto padrão com mais conforto",
+                     "precoDiario": 400.00
+                  
+                }
+                """;
+
+        String jsonVeiculo = """
+                {
+                   
+                    "placa": "RTT-2A24",
+                    "modelo": "Onix",
+                    "marca": "Chevrolet",
+                    "ano": 2023,
+                    "cor": "Prata",
+                    "tipoVeiculo": 1,
+                    "status": "DISPONIVEL"                  
+                }
+                """;
+
+
+        String jsonAluguel = """
+                {
+                   
+                    "clienteId": 3,
+                    "veiculoId": 1,
+                    "taxaFixa": 50.00,
+                    "dataInicio": "01/01/2026"               
+                }
+                """;
+
+
+        //criar TipotipoVeiculo
+        given()
+                .header("Authorization","Bearer " + token)
+                .body(jsonTipoVeiculo)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/tv")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        //criar Veiculo
+        given()
+                .header("Authorization","Bearer " + token)
+                .body(jsonVeiculo)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/veiculo")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        //criarAluguiel
+        given()
+                .header("Authorization","Bearer " + token)
+                .body(jsonAluguel)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/aluguel")
+                .then()
+                .log().all()
+                .statusCode(404);
+
+    }
+
+    @Test
+    public void testDadoUsuarioDeveCriarAluguelComDadosDeIdVeiculoIncorreto(){
+
+        String jsonTipoVeiculo = """
+                {
+                    
+                     "name": "SUV de Luxo",
+                     "descricao": "Veículo de alto padrão com mais conforto",
+                     "precoDiario": 400.00
+                  
+                }
+                """;
+
+        String jsonVeiculo = """
+                {
+                   
+                    "placa": "RTT-2A24",
+                    "modelo": "Onix",
+                    "marca": "Chevrolet",
+                    "ano": 2023,
+                    "cor": "Prata",
+                    "tipoVeiculo": 1,
+                    "status": "DISPONIVEL"                  
+                }
+                """;
+
+
+        String jsonAluguel = """
+                {
+                   
+                    "clienteId": 1,
+                    "veiculoId": 3,
+                    "taxaFixa": 50.00,
+                    "dataInicio": "01/01/2026"               
+                }
+                """;
+
+
+        //criar TipotipoVeiculo
+        given()
+                .header("Authorization","Bearer " + token)
+                .body(jsonTipoVeiculo)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/tv")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        //criar Veiculo
+        given()
+                .header("Authorization","Bearer " + token)
+                .body(jsonVeiculo)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/veiculo")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        //criarAluguiel
+        given()
+                .header("Authorization","Bearer " + token)
+                .body(jsonAluguel)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/aluguel")
+                .then()
+                .log().all()
+                .statusCode(404);
+
+    }
+
+    @Test
+    public void testDadoUsuarioDeveCriarAluguelComValroDeTaxaFixaIncorreta(){
+
+        String jsonTipoVeiculo = """
+                {
+                    
+                     "name": "SUV de Luxo",
+                     "descricao": "Veículo de alto padrão com mais conforto",
+                     "precoDiario": 400.00
+                  
+                }
+                """;
+
+        String jsonVeiculo = """
+                {
+                   
+                    "placa": "RTT-2A24",
+                    "modelo": "Onix",
+                    "marca": "Chevrolet",
+                    "ano": 2023,
+                    "cor": "Prata",
+                    "tipoVeiculo": 1,
+                    "status": "DISPONIVEL"                  
+                }
+                """;
+
+
+        String jsonAluguel = """
+                {
+                   
+                    "clienteId": 1,
+                    "veiculoId": 1,
+                    "taxaFixa": -1.00,
+                    "dataInicio": "01/01/2026"               
+                }
+                """;
+
+
+        //criar TipotipoVeiculo
+        given()
+                .header("Authorization","Bearer " + token)
+                .body(jsonTipoVeiculo)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/tv")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        //criar Veiculo
+        given()
+                .header("Authorization","Bearer " + token)
+                .body(jsonVeiculo)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/veiculo")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        //criarAluguiel
+        given()
+                .header("Authorization","Bearer " + token)
+                .body(jsonAluguel)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/aluguel")
+                .then()
+                .log().all()
+                .statusCode(400);
+
+    }
+
+    @Test
+    public void testDadoUsuarioDeveCriarAluguelComVeiculoAlugado(){
+
+        String jsonTipoVeiculo = """
+                {
+                    
+                     "name": "SUV de Luxo",
+                     "descricao": "Veículo de alto padrão com mais conforto",
+                     "precoDiario": 400.00
+                  
+                }
+                """;
+
+        String jsonVeiculo = """
+                {
+                   
+                    "placa": "RTT-2A24",
+                    "modelo": "Onix",
+                    "marca": "Chevrolet",
+                    "ano": 2023,
+                    "cor": "Prata",
+                    "tipoVeiculo": 1,
+                    "status": "ALUGADO"                  
+                }
+                """;
+
+
+        String jsonAluguel = """
+                {
+                   
+                    "clienteId": 1,
+                    "veiculoId": 1,
+                    "taxaFixa": 50.00,
+                    "dataInicio": "01/01/2026"               
+                }
+                """;
+
+
+        //criar TipotipoVeiculo
+        given()
+                .header("Authorization","Bearer " + token)
+                .body(jsonTipoVeiculo)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/tv")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        //criar Veiculo
+        given()
+                .header("Authorization","Bearer " + token)
+                .body(jsonVeiculo)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/veiculo")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        //criarAluguiel
+        given()
+                .header("Authorization","Bearer " + token)
+                .body(jsonAluguel)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/aluguel")
+                .then()
+                .log().all()
+                .statusCode(400);
+
+    }
+
+
+    @Test
+    public void testDadoUsuarioDeveListaAluguelAtivos(){
 
         String jsonTipoVeiculo = """
                 {
@@ -305,7 +754,8 @@ public class AluguelControlerTest {
                 .get("/api/aluguel")
                 .then()
                 .log().all()
-                .statusCode(200);
+                .statusCode(200)
+                .body("size()", equalTo(0));
 
     }
 
@@ -411,6 +861,20 @@ public class AluguelControlerTest {
                 .then()
                 .log().all()
                 .statusCode(200);
+
+    }
+
+    @Test
+    public void testDadoOUsuarBuscaAluguelPorIdInexistente(){
+
+        //BuscarAluguelPorId
+        given()
+                .header("Authorization","Bearer " + token)
+                .when()
+                .get("/api/aluguel/1")
+                .then()
+                .log().all()
+                .statusCode(404);
 
     }
 
@@ -594,6 +1058,32 @@ public class AluguelControlerTest {
                 .body("size()", greaterThan(0));
     }
 
+    @Test
+    public void testDadoClienteDeveBuscarAlugueisPorPeriodoSemAlugueisCadastrados(){
+        given()
+                .header("Authorization", "Bearer " + token)
+                .param("inicio", "2026-01-01T00:00:00")
+                .param("fim", "2026-12-31T23:59:59")
+                .when()
+                .get("/api/aluguel/periodo")
+                .then()
+                .log().all()
+                .statusCode(204);
+    }
+
+    @Test
+    public void testDadoClienteDeveBuscarAlugueisPorPeriodoComDatasIncondizentes(){
+
+        given()
+                .header("Authorization", "Bearer " + token)
+                .param("inicio", "2026-12-01T00:00:00")
+                .param("fim", "2026-01-31T23:59:59")
+                .when()
+                .get("/api/aluguel/periodo")
+                .then()
+                .log().all()
+                .statusCode(409);
+    }
 
     @Test
     public void testDadoUsuarioDeveAtualizarValoresDeUmAluguel() {
@@ -686,6 +1176,288 @@ public class AluguelControlerTest {
                 .then()
                 .log().all()
                 .statusCode(200);
+
+    }
+
+    @Test
+    public void testDadoUsuarioDeveAtualizarValoresDeUmAluguelComIdVeiculoInvalido() {
+        String jsonTipoVeiculo = """
+                {
+                    
+                     "name": "SUV de Luxo",
+                     "descricao": "Veículo de alto padrão com mais conforto",
+                     "precoDiario": 400.00
+                  
+                }
+                """;
+
+        String jsonVeiculo = """
+                {
+                   
+                    "placa": "RTT-2A24",
+                    "modelo": "Onix",
+                    "marca": "Chevrolet",
+                    "ano": 2023,
+                    "cor": "Prata",
+                    "tipoVeiculo": 1,
+                    "status": "DISPONIVEL"                  
+                }
+                """;
+
+
+        String jsonAluguel = """
+                {
+                   
+                    "clienteId": 1,
+                    "veiculoId": 1,
+                    "taxaFixa": 50.00,
+                    "dataInicio": "01/01/2026"               
+                }
+                """;
+
+
+        //criar TipotipoVeiculo
+        given()
+                .header("Authorization", "Bearer " + token)
+                .body(jsonTipoVeiculo)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/tv")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        //criar Veiculo
+        given()
+                .header("Authorization", "Bearer " + token)
+                .body(jsonVeiculo)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/veiculo")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        //criarAluguiel
+        given()
+                .header("Authorization", "Bearer " + token)
+                .body(jsonAluguel)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/aluguel")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        String jsonAtualizacao = """
+                {
+                    "clienteId": 1,
+                    "veiculoId": 3,
+                    "taxaFixa": 75.00,
+                    "dataInicio": "01/02/2026"
+                }
+                """;
+
+        given()
+                .header("Authorization", "Bearer " + token)
+                .contentType(ContentType.JSON)
+                .body(jsonAtualizacao)
+                .when()
+                .put("/api/aluguel/1")
+                .then()
+                .log().all()
+                .statusCode(404);
+
+    }
+
+    @Test
+    public void testDadoUsuarioDeveAtualizarValoresDeUmAluguelComIdClienteInvalido() {
+        String jsonTipoVeiculo = """
+                {
+                    
+                     "name": "SUV de Luxo",
+                     "descricao": "Veículo de alto padrão com mais conforto",
+                     "precoDiario": 400.00
+                  
+                }
+                """;
+
+        String jsonVeiculo = """
+                {
+                   
+                    "placa": "RTT-2A24",
+                    "modelo": "Onix",
+                    "marca": "Chevrolet",
+                    "ano": 2023,
+                    "cor": "Prata",
+                    "tipoVeiculo": 1,
+                    "status": "DISPONIVEL"                  
+                }
+                """;
+
+
+        String jsonAluguel = """
+                {
+                   
+                    "clienteId": 1,
+                    "veiculoId": 1,
+                    "taxaFixa": 50.00,
+                    "dataInicio": "01/01/2026"               
+                }
+                """;
+
+
+        //criar TipotipoVeiculo
+        given()
+                .header("Authorization", "Bearer " + token)
+                .body(jsonTipoVeiculo)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/tv")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        //criar Veiculo
+        given()
+                .header("Authorization", "Bearer " + token)
+                .body(jsonVeiculo)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/veiculo")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        //criarAluguiel
+        given()
+                .header("Authorization", "Bearer " + token)
+                .body(jsonAluguel)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/aluguel")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        String jsonAtualizacao = """
+                {
+                    "clienteId": 3,
+                    "veiculoId": 1,
+                    "taxaFixa": 75.00,
+                    "dataInicio": "01/02/2026"
+                }
+                """;
+
+        given()
+                .header("Authorization", "Bearer " + token)
+                .contentType(ContentType.JSON)
+                .body(jsonAtualizacao)
+                .when()
+                .put("/api/aluguel/1")
+                .then()
+                .log().all()
+                .statusCode(404);
+
+    }
+
+    @Test
+    public void testDadoUsuarioDeveAtualizarValoresDeUmAluguelComTaxaFixaInvalida() {
+        String jsonTipoVeiculo = """
+                {
+                    
+                     "name": "SUV de Luxo",
+                     "descricao": "Veículo de alto padrão com mais conforto",
+                     "precoDiario": 400.00
+                  
+                }
+                """;
+
+        String jsonVeiculo = """
+                {
+                   
+                    "placa": "RTT-2A24",
+                    "modelo": "Onix",
+                    "marca": "Chevrolet",
+                    "ano": 2023,
+                    "cor": "Prata",
+                    "tipoVeiculo": 1,
+                    "status": "DISPONIVEL"                  
+                }
+                """;
+
+
+        String jsonAluguel = """
+                {
+                   
+                    "clienteId": 1,
+                    "veiculoId": 1,
+                    "taxaFixa": 50.00,
+                    "dataInicio": "01/01/2026"               
+                }
+                """;
+
+
+        //criar TipotipoVeiculo
+        given()
+                .header("Authorization", "Bearer " + token)
+                .body(jsonTipoVeiculo)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/tv")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        //criar Veiculo
+        given()
+                .header("Authorization", "Bearer " + token)
+                .body(jsonVeiculo)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/veiculo")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        //criarAluguiel
+        given()
+                .header("Authorization", "Bearer " + token)
+                .body(jsonAluguel)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/aluguel")
+                .then()
+                .log().all()
+                .statusCode(201);
+
+
+        String jsonAtualizacao = """
+                {
+                    "clienteId": 1,
+                    "veiculoId": 1,
+                    "taxaFixa": -1.00,
+                    "dataInicio": "01/02/2026"
+                }
+                """;
+
+        given()
+                .header("Authorization", "Bearer " + token)
+                .contentType(ContentType.JSON)
+                .body(jsonAtualizacao)
+                .when()
+                .put("/api/aluguel/1")
+                .then()
+                .log().all()
+                .statusCode(400);
 
     }
     @Test

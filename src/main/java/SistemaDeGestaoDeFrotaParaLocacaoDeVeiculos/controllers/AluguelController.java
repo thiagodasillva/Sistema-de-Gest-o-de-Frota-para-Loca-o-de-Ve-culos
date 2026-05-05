@@ -63,6 +63,11 @@ public class AluguelController {
     public ResponseEntity<List<AluguelResponseDTO>> listarPorPeriodo(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
                                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime fim){
         List<AluguelResponseDTO> aluguelDTOS = aluguelService.listarAluguelPorPeriodo(inicio,fim);
+
+        if(aluguelDTOS.isEmpty()){
+            return ResponseEntity.noContent().build(); // retorna 204 No Content
+        }
+
         return ResponseEntity.ok(aluguelDTOS);
     }
 

@@ -1,9 +1,7 @@
 package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -18,6 +16,7 @@ public class AluguelResquestDTO {
     private Long veiculoId;
 
     @NotNull(message = "A taxa fixa não pode ser vazia")
+    @DecimalMin(value = "0.0", message = "A taxa fixa deve ser maior ou igual a zero")
     private BigDecimal taxaFixa;
 
     @NotNull(message = "A data de início é obrigatória")

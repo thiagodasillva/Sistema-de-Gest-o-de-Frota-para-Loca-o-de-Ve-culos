@@ -86,7 +86,7 @@ public class ClienteControllerTest {
 
 
     @Test
-    public void testDadoClientDeveCriarClientesListarTodosBusacarPorId() {
+    public void testDadoClientDeveCriarClientesListarTodosBusacarPorIdePorCPF() {
 
         String jsonCliente2 = """
                 {
@@ -185,7 +185,7 @@ public class ClienteControllerTest {
     }
 
     @Test
-    public void testDadoClienteDeveAlterarDadosDeClienteCasoDeErroAoPreencherCamposDoCLiente(){
+    public void testDadoClienteDeveReceberMensagemDeErroAoAtualizarComDadosErrados(){
 
         String jsonCliente2 = """
                 {

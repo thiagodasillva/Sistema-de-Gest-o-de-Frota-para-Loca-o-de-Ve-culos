@@ -1,7 +1,7 @@
 package SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.exception;
 
 
-import jakarta.persistence.EntityNotFoundException;
+import SistemaDeGestaoDeFrotaParaLocacaoDeVeiculos.exception.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,6 +64,30 @@ public class GlobalExceptionHandler {
                 .errors(Collections.singletonList("Ocorreu um erro interno no servidor."))
                 .build();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+
+
+
+    @ExceptionHandler(DateConflictException.class)
+    public ResponseEntity<ErrorResponde> handleDateConflict(DateConflictException ex) {
+        ErrorResponde error = new ErrorResponde.Builder()
+                .timestamp(LocalDateTime.now())
+                .code(HttpStatus.CONFLICT.value())
+                .status(HttpStatus.CONFLICT.getReasonPhrase())
+                .errors(Collections.singletonList("Conflito de dados: As datas Informadas estão incorretas."))
+                .build();
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    @ExceptionHandler(VeiculoStatusError.class)
+    public ResponseEntity<ErrorResponde> handleVeiculoStatusError(VeiculoStatusError ex) {
+        ErrorResponde error = new ErrorResponde.Builder()
+                .timestamp(LocalDateTime.now())
+                .code(HttpStatus.BAD_REQUEST.value())
+                .status(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .errors(Collections.singletonList("Não é possivel criar um aluguel com um veiculo indisponivel."))
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
 
